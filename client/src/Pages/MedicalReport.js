@@ -18,13 +18,10 @@ export default function MedicalReport() {
       setResult(null);
 
       try {
-        const res = await api.post("/api/your-endpoint", {
+        const res = await api.post("/ask", {
           report: report,
           city: city,
         });
-
-        // Axios puts the response body in res.data
-        const data = res.data;
 
         if (!data) {
           setError("Invalid response");

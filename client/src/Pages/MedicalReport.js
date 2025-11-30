@@ -9,6 +9,7 @@ export default function MedicalReport() {
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8000/ask";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,7 +18,7 @@ export default function MedicalReport() {
     setResult(null);
 
     try {
-      const res = await fetch("https://medimind-zp1b.onrender.com", {
+      const res = await fetch(API_URL, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ report, city }),

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaSearchPlus } from "react-icons/fa";
 import { TbReportSearch } from "react-icons/tb";
 import SkeltonLoading from "../Components/SkeltonLoading";
-
+import { api } from "../api/axios";
 
 export default function MedicalReport() {
   const [report, setReport] = useState("");
@@ -12,38 +12,42 @@ export default function MedicalReport() {
   const [error, setError] = useState("");
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-    setResult(null);
+      e.preventDefault();
+      setLoading(true);
+      setError("");
+      setResult(null);
 
-    try {
-      const res = await fetch("http://localhost:8000/ask", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ report, city }),
-      });
+      try {
+        const res = await api.post("/api/your-endpoint", {
+          report: report,
+          city: city,
+        });
 
-      const data = await res.json();
-      if (!res.ok) {
-        setError(data.error || "Something went wrong");
+        // Axios puts the response body in res.data
+        const data = res.data;
+
+        if (!data) {
+          setError("Invalid response");
+          return;
+        }
+
+        const parsed = JSON.parse(data.analysis);
+
+        setResult({
+          deficiencies: parsed.deficiencies || [],
+          lifestyle_tips: parsed.lifestyle_tips || [],
+          doctor_advice: parsed.doctor_advice || "No advice provided",
+          hospitals: parsed.hospitals || [],
+        });
+
+      } catch (err) {
+        console.log(err);
+        setError("Failed to fetch AI analysis");
+      } finally {
         setLoading(false);
-        return;
       }
+    };
 
-      const parsed = JSON.parse(data.analysis);
-      setResult({
-        deficiencies: parsed.deficiencies || [],
-        lifestyle_tips: parsed.lifestyle_tips || [],
-        doctor_advice: parsed.doctor_advice || "No advice provided",
-        hospitals: parsed.hospitals || [],
-      });
-    } catch {
-      setError("Failed to fetch AI analysis");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleNewReport = () => {
     setReport("");

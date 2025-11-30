@@ -1,6 +1,6 @@
 module library
 
-go 1.25.4
+go 1.25.0
 
 require (
 	cloud.google.com/go v0.115.0 // indirect

@@ -5,5 +5,5 @@ services:
     buildCommand: go build -o app
     startCommand: ./app
     envVars:
-      - key: GO_VERSION
+      - key: GOVERSION
         value: "1.25.4"

@@ -13,7 +13,7 @@ func main() {
 	r := gin.Default()
 
 	r.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000","https://medi-mind-hk1m-pejmwl0q7-jaison-ms-projects.vercel.app/"},
+		AllowOrigins:     []string{"http://localhost:3000","https://medi-mind-hk1m-pejmwl0q7-jaison-ms-projects.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
